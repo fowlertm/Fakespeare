@@ -130,7 +130,7 @@ This matrix of term frequencies is what we feed into our LDA algorithm to find l
 
 LDA is driven by the Dirichlet Process of sampling from a distribution of distributions, and alpha and beta determine how this process unfolds. The alpha hyper-parameter drives the construction of the θ (theta, topics per document) matrix. Alpha can vary from slightly above zero to positive infinity, but in practice is usually set below 1. As alpha approaches zero each document will be made of fewer topics, and as alpha climbs each document will be made of more topics:
 
-![LDA alpha](lda_alpha.gif)
+![LDA alpha](images/lda_alpha.gif)
 [Source](https://medium.com/@lettier/how-does-lda-work-ill-explain-using-emoji-108abf40fa7d)
 
 (This is with k = 3 topics, the varying alpha value can be seen at the top of the grap)
@@ -139,7 +139,7 @@ Beta, on the other hand, does basically the same thing for our φ (phi, words pe
 
 To summarize, LDA takes a term frequency matrix and alpha/beta hyper-parameters, and produces phi (words-per-topic) and theta (topics-per-document) matrices:
 
-![LDA summary](lda_summary.png)
+![LDA summary](images/lda_summary.png)
 [Source](https://datawarrior.wordpress.com/2016/04/20/local-and-global-words-and-topics/)
 
 Arriving at these matrices requires iterative updating. One way to go about this is with collapsed Gibbs sampling ([Source](https://cfss.uchicago.edu/fall2016/text02.html#latent_dirichlet_allocation)). In this approach, LDA first goes through each document and randomly assigns each of its words to one of the *k* topics chosen at the outset, which results in (terrible) initial phi and theta matrices. Then for each document d, for each word w in d, and for each topic t, LDA calculates
@@ -215,7 +215,7 @@ But from what I could tell the industry standard seems to be neural nets (NNs). 
 
 For all their scope, power, flexibility, and hyped-up press NNs can be understood at a high level with relatively few concepts. The simplest NNs have an input layer, a hidden layer or two, and an output layer
 
-![Neural Network Illustration](/images/3b1b-nn.jpeg)
+![Neural Network Illustration](images/3b1b-nn.jpeg)
 
 [Source](https://www.youtube.com/watch?v=aircAruvnKk)
 
@@ -223,21 +223,19 @@ In this image the leftmost layer is the input layer, the two middle layers are h
 
 Naturally enough our inputs are fed into the input layer. These could be numbers representing pixel densities, numbers representing sound frequencies, or numbers representing unique words in a corpus of text, but they *must* be numbers, and they are usually in either a vector or matrix.
 
- You can see that each of the input nodes is connected to one or more of the nodes in the hidden layer, and so on for each set of layer-to-layer connections until the output layer. Let's call these connections 'edges'. Each edge has a weight -- some number like 1.2 or .65 -- associated with it.
+You can see that each of the input nodes is connected to one or more of the nodes in the hidden layer, and so on for each set of layer-to-layer connections until the output layer. Let's call these connections 'edges'. Each edge has a weight -- some number like 1.2 or .65 -- associated with it.
 
 When a vector of numbers passes through the input layer, the entire vector is multiplied by the weight of the edges between the nodes in the input layer and the nodes to which they are connected in the hidden layer. If a given input node is connected to multiple hidden-layer nodes, then this procedure occurs for each of the edges, which may have the same weights or different weights.
 
 The input 'forward' propagates in this fashion until the NN outputs a prediction from its final layer:
 
-![Forward propagation](/images/3b1b-nn-forwardprop.webp)
+![Forward propagation](images/3b1b-nn-forwardprop.webp)
 
 [Source](https://www.youtube.com/watch?v=aircAruvnKk&feature=youtu.be)
 
 (The images in this section are of an NN which is learning to identify handwritten digits, but the basic principles don't change much when we are processing text input, as I did in my project)
 
- This prediction is then compared against a test value, which tells the NN how well or poorly it did. Since the weights within an NN are often initialized randomly the predictions start out pretty bad. But after each attempt the NN can use the information about how good its prediction was to 'back' propagate weight adjustments:
-
-[Get a gif of this happening]
+This prediction is then compared against a test value, which tells the NN how well or poorly it did. Since the weights within an NN are often initialized randomly the predictions start out pretty bad. But after each attempt the NN can use the information about how good its prediction was to 'back' propagate weight adjustments.
 
 Backpropagation is just the recursive application of the Chain Rule from calculus to the weights in an NN. Incredibly, the equations work such that the weights which contributed most to a bad prediction are updated the most.
 
@@ -269,18 +267,6 @@ And so on. When I specify my model's architecture I tell it how many characters 
 
 There are a number of excellent resources for implementing a simple RNN, the one I used was [Andrej Karpathy's](https://gist.github.com/karpathy/d4dee566867f8291f086) vanilla RNN implementation in python, which gave me a much better feel for how the initialization, forward propagation, and back propagation worked.
 
-
-### Torch, TensorFlow, and Migrating to the Cloud
-
-<Include a table with cloud/no cloud/ tf v.s. torch, breakdown of lua v.s. keras etc, what my sequence length was, etc.>
-<Make my final comparisons between Shakespeare outputs in this section>
-
-The first RNN I built was described in the last paragraph, but the model was I actually trained and used was based on Justin Johnson's [torch-rnn](https://github.com/jcjohnson/torch-rnn) implementation, a multi-layer RNN with both long Short Term Memory (LSTM) and gated recurrent units (GRU).
-
-
-### Interpreting Results
-
-Discuss perplexity and loss, but also subjective evaluation.
 
 ### Future work
 
