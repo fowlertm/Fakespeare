@@ -14,8 +14,6 @@ NLP requires that we translate text (or speech, for that matter) into the number
 
 This has always been a project of interest for those who would build intelligent machines, but recent years have seen both a rise in the accuracy and power of NLP and a concomitant increase in its use cases.
 
-[Have some illustrations here of the various use cases: predictive text, Google smart answering systems, analyzing medical records, chatbots in therapy, customer service, etc]
-
 Given how fertile the field is I decided to explore it, and chose to start by creating a neural-network text predictor which could output imitations of any text with which it was trained. This was an organic, spectacularly nonlinear process, involving many detours into the literature and various code bases throughout. But for the sake of clarity I've chosen to *present* what I learned in a nice, linear format.
 
 I begin with a discussion of barebones 'vanilla' neural nets and climb the complexity gradient up to a deep neural net built with TensorFlow on the Amazon cloud. Along the way I'll discuss the mathematics and code which undergird this extraordinary technology.
@@ -130,7 +128,7 @@ This matrix of term frequencies is what we feed into our LDA algorithm to find l
 
 LDA is driven by the Dirichlet Process of sampling from a distribution of distributions, and alpha and beta determine how this process unfolds. The alpha hyper-parameter drives the construction of the θ (theta, topics per document) matrix. Alpha can vary from slightly above zero to positive infinity, but in practice is usually set below 1. As alpha approaches zero each document will be made of fewer topics, and as alpha climbs each document will be made of more topics:
 
-![LDA alpha](images/lda_alpha.gif)
+![LDA alpha](images/lda_alpha.gif)  
 [Source](https://medium.com/@lettier/how-does-lda-work-ill-explain-using-emoji-108abf40fa7d)
 
 (This is with k = 3 topics, the varying alpha value can be seen at the top of the grap)
@@ -139,7 +137,7 @@ Beta, on the other hand, does basically the same thing for our φ (phi, words pe
 
 To summarize, LDA takes a term frequency matrix and alpha/beta hyper-parameters, and produces phi (words-per-topic) and theta (topics-per-document) matrices:
 
-![LDA summary](images/lda_summary.png)
+![LDA summary](images/lda_summary.png)  
 [Source](https://datawarrior.wordpress.com/2016/04/20/local-and-global-words-and-topics/)
 
 Arriving at these matrices requires iterative updating. One way to go about this is with collapsed Gibbs sampling ([Source](https://cfss.uchicago.edu/fall2016/text02.html#latent_dirichlet_allocation)). In this approach, LDA first goes through each document and randomly assigns each of its words to one of the *k* topics chosen at the outset, which results in (terrible) initial phi and theta matrices. Then for each document d, for each word w in d, and for each topic t, LDA calculates
